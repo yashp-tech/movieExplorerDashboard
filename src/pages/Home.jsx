@@ -8,6 +8,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedType, setSelectedType] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   return (
     <div className="space-y-6">
@@ -23,11 +24,14 @@ const Home = () => {
       <MovieFilters 
         selectedType={selectedType}
         onTypeChange={setSelectedType}
+        selectedGenre={selectedGenre}
+        onGenreChange={setSelectedGenre}
       />
       
       <MovieGrid 
         searchQuery={searchQuery}
         type={selectedType}
+        genre={selectedGenre}
         page={currentPage}
       />
       

@@ -6,18 +6,28 @@ import Loader from '../../components/Loader';
 import ErrorMessage from '../../components/ErrorMessage';
 import useDebounce from '../../hooks/useDebounce';
 
-const MovieGrid = ({ searchQuery, type, page }) => {
+const MovieGrid = ({ searchQuery, type, genre, page }) => {
   const dispatch = useDispatch();
   const { movies, loading, error } = useSelector((state) => state.movies);
   const debouncedSearch = useDebounce(searchQuery, 500);
+  // Combine genre and search query for OMDB filtering
+  const combinedQuery = useMemo(() => {
+    if (genre && genre !== '') {
+      if (debouncedSearch && debouncedSearch !== '') {
+        return `${debouncedSearch} ${genre}`;
+      }
+      return genre;
+    }
+    return debouncedSearch;
+  }, [debouncedSearch, genre]);
 
   useEffect(() => {
     dispatch(fetchMovies({ 
-      query: debouncedSearch, 
+      query: combinedQuery, 
       page, 
       type 
     }));
-  }, [dispatch, debouncedSearch, page, type]);
+  }, [dispatch, combinedQuery, page, type]);
 
   const memoizedMovies = useMemo(() => movies, [movies]);
 
