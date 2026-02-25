@@ -18,8 +18,8 @@ const Home = () => {
   const { movies } = useSelector((state) => state.movies);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+    <div className="space-y-6 bg-black">
+      <h1 className="text-3xl  font-bold text-yellow-400 dark:text-yellow-400">
         Discover Movies
       </h1>
 

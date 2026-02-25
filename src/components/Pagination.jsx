@@ -18,7 +18,7 @@ const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }) => {
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        className="px-4 py-2 text-white rounded hover:text-yellow-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
         Previous
       </button>
@@ -28,7 +28,7 @@ const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }) => {
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        className="px-4 py-2  text-white rounded hover:text-yellow-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
         Next
       </button>
