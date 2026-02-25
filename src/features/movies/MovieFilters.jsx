@@ -8,7 +8,7 @@ const MovieFilters = memo(({ selectedType, onTypeChange, selectedGenre, onGenreC
   ];
 
   const genres = [
-    
+
     { value: 'horror', label: 'Horror' },
     { value: 'sci-fi', label: 'Sci-Fi' },
     { value: 'family', label: 'Family Friendly' },
