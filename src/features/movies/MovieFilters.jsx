@@ -24,7 +24,7 @@ const MovieFilters = memo(({ selectedType, onTypeChange, selectedGenre, onGenreC
   }, [onGenreChange]);
 
   return (
-    <div className="space-y-4 p-6 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 mb-6 animate-fade-in">
+    <div className="space-y-4 p-6 bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 mb-6 animate-fade-in bg-pink-400">
       <div className="flex gap-3 flex-wrap justify-center">
         {types.map((type) => (
           <button
