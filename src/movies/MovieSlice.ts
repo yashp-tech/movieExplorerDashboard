@@ -1,16 +1,31 @@
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { searchMovies } from './movieAPI';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { searchMovies } from '../api/MovieAPI';
+import type { Movie, MovieSearchResult } from '../types/movie';
 
-const initialState = {
+interface MovieState {
+  movies: Movie[];
+  loading: boolean;
+  error: string | null;
+  totalResults: number;
+  favorites: Movie[];
+}
+
+const initialState: MovieState = {
   movies: [],
   loading: false,
   error: null,
   totalResults: 0,
-  favorites: JSON.parse(localStorage.getItem('favorites')) || [],
+  favorites: JSON.parse(localStorage.getItem('favorites') ?? '[]') as Movie[],
 };
 
-export const fetchMovies = createAsyncThunk(
+interface FetchMoviesArgs {
+  query: string;
+  page: number;
+  type: string;
+}
+
+export const fetchMovies = createAsyncThunk<MovieSearchResult, FetchMoviesArgs>(
   'movies/fetchMovies',
   async ({ query, page, type }) => {
     const data = await searchMovies(query, page, type);
@@ -22,7 +37,7 @@ const movieSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    addToFavorites: (state, action) => {
+    addToFavorites: (state, action: PayloadAction<Movie>) => {
       const movie = action.payload;
       const exists = state.favorites.find((fav) => fav.imdbID === movie.imdbID);
       if (!exists) {
@@ -30,7 +45,7 @@ const movieSlice = createSlice({
         localStorage.setItem('favorites', JSON.stringify(state.favorites));
       }
     },
-    removeFromFavorites: (state, action) => {
+    removeFromFavorites: (state, action: PayloadAction<string>) => {
       state.favorites = state.favorites.filter(
         (movie) => movie.imdbID !== action.payload
       );
@@ -50,11 +65,10 @@ const movieSlice = createSlice({
       })
       .addCase(fetchMovies.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       });
   },
 });
 
 export default movieSlice.reducer;
 export const { addToFavorites, removeFromFavorites } = movieSlice.actions;
-

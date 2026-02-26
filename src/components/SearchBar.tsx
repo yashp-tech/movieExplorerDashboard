@@ -1,8 +1,12 @@
 import { memo } from 'react';
-import useDebounce from '../hooks/useDebounce';
 
-const SearchBar = memo(({ value, onChange }) => {
-  const handleChange = (e) => {
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const SearchBar = memo(({ value, onChange }: SearchBarProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
@@ -22,4 +26,3 @@ const SearchBar = memo(({ value, onChange }) => {
 SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;
-

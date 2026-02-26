@@ -1,6 +1,12 @@
 import { memo } from 'react';
 
-const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }) => {
+interface PaginationProps {
+  currentPage: number;
+  totalPages?: number;
+  onPageChange: (page: number) => void;
+}
+
+const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }: PaginationProps) => {
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -28,7 +34,7 @@ const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }) => {
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="px-4 py-2  text-white rounded hover:text-yellow-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        className="px-4 py-2 text-white rounded hover:text-yellow-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
         Next
       </button>
@@ -39,4 +45,3 @@ const Pagination = memo(({ currentPage, totalPages = 10, onPageChange }) => {
 Pagination.displayName = 'Pagination';
 
 export default Pagination;
-

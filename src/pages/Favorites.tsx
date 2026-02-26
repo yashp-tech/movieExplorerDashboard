@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import MovieCard from '../features/movies/MovieCard';
+import { useAppSelector } from '../app/hooks';
+import MovieCard from '../movies/MovieCard';
 
 const Favorites = () => {
-  const favorites = useSelector((state) => state.movies.favorites);
+  const favorites = useAppSelector((state) => state.movies.favorites);
 
   if (favorites.length === 0) {
     return (
@@ -32,4 +32,3 @@ const Favorites = () => {
 };
 
 export default Favorites;
-

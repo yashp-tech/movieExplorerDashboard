@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchMovieById } from '../features/movies/movieAPI';
+import { fetchMovieById } from '../api/MovieAPI';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
+import type { MovieDetails as MovieDetailsType } from '../types/movie';
 
 const MovieDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState<MovieDetailsType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadMovie = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovieById(id);
+        const data = await fetchMovieById(id!);
         setMovie(data);
         setError(null);
       } catch (err) {
-        setError(err.message);
+        setError((err as Error).message);
       } finally {
         setLoading(false);
       }
@@ -34,18 +35,18 @@ const MovieDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <button 
+      <button
         onClick={() => navigate(-1)}
         className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
         ← Back
       </button>
-      
+
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/3">
-            <img 
-              src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Poster'} 
+            <img
+              src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Poster'}
               alt={movie.Title}
               className="w-full h-full object-cover"
             />
@@ -81,4 +82,3 @@ const MovieDetails = () => {
 };
 
 export default MovieDetails;
-

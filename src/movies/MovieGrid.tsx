@@ -1,16 +1,23 @@
 import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies } from './movieSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { fetchMovies } from './MovieSlice';
 import MovieCard from './MovieCard';
-import Loader from '../../components/Loader';
-import ErrorMessage from '../../components/ErrorMessage';
-import useDebounce from '../../hooks/useDebounce';
+import Loader from '../components/Loader';
+import ErrorMessage from '../components/ErrorMessage';
+import useDebounce from '../hooks/useDebounce';
 
-const MovieGrid = ({ searchQuery, type, genre, page }) => {
-  const dispatch = useDispatch();
-  const { movies, loading, error } = useSelector((state) => state.movies);
+interface MovieGridProps {
+  searchQuery: string;
+  type: string;
+  genre: string;
+  page: number;
+}
+
+const MovieGrid = ({ searchQuery, type, genre, page }: MovieGridProps) => {
+  const dispatch = useAppDispatch();
+  const { movies, loading, error } = useAppSelector((state) => state.movies);
   const debouncedSearch = useDebounce(searchQuery, 500);
-  // Combine genre and search query for OMDB filtering
+
   const combinedQuery = useMemo(() => {
     if (genre && genre !== '') {
       if (debouncedSearch && debouncedSearch !== '') {
@@ -22,10 +29,10 @@ const MovieGrid = ({ searchQuery, type, genre, page }) => {
   }, [debouncedSearch, genre]);
 
   useEffect(() => {
-    dispatch(fetchMovies({ 
-      query: combinedQuery, 
-      page, 
-      type 
+    dispatch(fetchMovies({
+      query: combinedQuery,
+      page,
+      type,
     }));
   }, [dispatch, combinedQuery, page, type]);
 
@@ -44,7 +51,7 @@ const MovieGrid = ({ searchQuery, type, genre, page }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
       {memoizedMovies.map((movie) => (
         <MovieCard key={movie.imdbID} movie={movie} />
       ))}
@@ -53,4 +60,3 @@ const MovieGrid = ({ searchQuery, type, genre, page }) => {
 };
 
 export default MovieGrid;
-

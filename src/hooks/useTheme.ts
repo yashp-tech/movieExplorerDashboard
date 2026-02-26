@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 
 const THEME_KEY = 'movieExplorer_theme';
 
-export default function useTheme() {
-  const [theme, setTheme] = useState(() => {
+type Theme = 'light' | 'dark';
+
+export default function useTheme(): [Theme, () => void] {
+  const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(THEME_KEY) || 'light';
+      return (localStorage.getItem(THEME_KEY) as Theme) || 'light';
     }
     return 'light';
   });

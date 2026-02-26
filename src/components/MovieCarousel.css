@@ -17,9 +17,9 @@
 
 .carousel-card {
   flex: 0 0 auto;
-  width: 220px;
-  min-width: 220px;
-  max-width: 220px;
+  width: 170px;
+  min-width: 170px;
+  max-width: 170px;
   background: #181818;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
