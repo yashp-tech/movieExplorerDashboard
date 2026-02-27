@@ -26,7 +26,7 @@ const Navbar = () => {
             }
             end
           >
-            Home
+          ⚛️  Home
           </NavLink>
           <NavLink
             to="/favorites"
@@ -41,7 +41,7 @@ const Navbar = () => {
             aria-label="Toggle dark mode"
             onClick={toggleTheme}
           >
-            {theme === 'dark' ? '🌙' : '🌞'}
+            {theme === 'dark' ? '☀️' : '🌙'}
           </button>
         </div>
       </div>

@@ -16,6 +16,7 @@ const MovieCard = memo(({ movie }: MovieCardProps) => {
   const favorites = useAppSelector((state) => state.movies.favorites);
   const isFavorite = favorites.some((fav) => fav.imdbID === movie.imdbID);
   const [hoverPlot, setHoverPlot] = useState<string | null>(null);
+  const [hoverActors, setHoverActors] = useState<string | null>(null);
   const [plotLoading, setPlotLoading] = useState(false);
 
   const handleMouseEnter = useCallback(async () => {
@@ -24,8 +25,14 @@ const MovieCard = memo(({ movie }: MovieCardProps) => {
     try {
       const details = await fetchMovieById(movie.imdbID);
       setHoverPlot(details.Plot || null);
+      if (details.Actors && details.Actors !== 'N/A') {
+        // Take only first 3 actors
+        const top3 = details.Actors.split(',').slice(0, 3).map(a => a.trim()).join(', ');
+        setHoverActors(top3);
+      }
     } catch {
       setHoverPlot(null);
+      setHoverActors(null);
     } finally {
       setPlotLoading(false);
     }
@@ -48,7 +55,7 @@ const MovieCard = memo(({ movie }: MovieCardProps) => {
 
   return (
     <div
-      className="rounded-2xl shadow-2xl overflow-visible cursor-pointer hover:scale-110 hover:z-50 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-all duration-300 border border-gray-800 group relative bg-gray-900"
+      className="rounded-2xl shadow-2xl overflow-visible cursor-pointer hover:scale-110 hover:z-50 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-all duration-300 border border-gray-200 dark:border-gray-800 group relative bg-white dark:bg-gray-900"
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
     >
@@ -106,10 +113,16 @@ const MovieCard = memo(({ movie }: MovieCardProps) => {
               <p className="text-xs text-gray-300 italic">Loading description...</p>
             )}
             {!plotLoading && hoverPlot && (
-              <p className="text-xs text-gray-200 leading-relaxed line-clamp-4">{hoverPlot}</p>
+              <p className="text-xs text-gray-200 leading-relaxed line-clamp-3">{hoverPlot}</p>
             )}
             {!plotLoading && !hoverPlot && (
               <p className="text-xs text-gray-400 italic">No description available.</p>
+            )}
+            {!plotLoading && hoverActors && (
+              <p className="text-xs text-gray-300 mt-2">
+                <span className="text-yellow-400 font-semibold">Starring: </span>
+                {hoverActors}
+              </p>
             )}
           </div>
         </div>

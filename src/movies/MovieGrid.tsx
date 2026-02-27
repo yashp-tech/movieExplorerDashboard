@@ -11,14 +11,24 @@ interface MovieGridProps {
   type: string;
   genre: string;
   page: number;
+  actorQuery: string;
 }
 
-const MovieGrid = ({ searchQuery, type, genre, page }: MovieGridProps) => {
+const MovieGrid = ({ searchQuery, type, genre, page, actorQuery }: MovieGridProps) => {
   const dispatch = useAppDispatch();
   const { movies, loading, error } = useAppSelector((state) => state.movies);
   const debouncedSearch = useDebounce(searchQuery, 500);
+  const debouncedActor = useDebounce(actorQuery, 500);
+
+  const isUpcoming = type === 'upcoming';
 
   const combinedQuery = useMemo(() => {
+    if (debouncedActor) {
+      return debouncedActor;
+    }
+    if (isUpcoming) {
+      return debouncedSearch || '2025 2026';
+    }
     if (genre && genre !== '') {
       if (debouncedSearch && debouncedSearch !== '') {
         return `${debouncedSearch} ${genre}`;
@@ -26,15 +36,17 @@ const MovieGrid = ({ searchQuery, type, genre, page }: MovieGridProps) => {
       return genre;
     }
     return debouncedSearch;
-  }, [debouncedSearch, genre]);
+  }, [debouncedSearch, debouncedActor, genre, isUpcoming]);
+
+  const apiType = isUpcoming ? 'movie' : type;
 
   useEffect(() => {
     dispatch(fetchMovies({
       query: combinedQuery,
       page,
-      type,
+      type: debouncedActor ? 'movie' : apiType,
     }));
-  }, [dispatch, combinedQuery, page, type]);
+  }, [dispatch, combinedQuery, page, apiType, debouncedActor]);
 
   const memoizedMovies = useMemo(() => movies, [movies]);
 
@@ -51,11 +63,25 @@ const MovieGrid = ({ searchQuery, type, genre, page }: MovieGridProps) => {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
-      {memoizedMovies.map((movie) => (
-        <MovieCard key={movie.imdbID} movie={movie} />
-      ))}
-    </div>
+    <>
+      {debouncedActor && (
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xl">🎭</span>
+          <h2 className="text-lg font-bold text-yellow-400">Movies featuring "{debouncedActor}"</h2>
+        </div>
+      )}
+      {isUpcoming && !debouncedActor && (
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xl">🗓️</span>
+          <h2 className="text-lg font-bold text-yellow-400">Upcoming &amp; Recent Movies (2025–2026)</h2>
+        </div>
+      )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+        {memoizedMovies.map((movie) => (
+          <MovieCard key={movie.imdbID} movie={movie} />
+        ))}
+      </div>
+    </>
   );
 };
 

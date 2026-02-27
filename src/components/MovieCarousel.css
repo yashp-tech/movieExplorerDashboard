@@ -1,7 +1,7 @@
-.movie-carousel-container {
+  .movie-carousel-container {
   position: relative;
   width: 100%;
-  margin: 2rem 0;
+  margin: 0;
   display: flex;
   align-items: center;
 }
