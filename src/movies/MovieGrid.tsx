@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { fetchMovies } from './MovieSlice';
+import { fetchMovies } from '../redux/MovieSlice';
 import MovieCard from './MovieCard';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';

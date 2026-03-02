@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addToFavorites, removeFromFavorites } from './MovieSlice';
+import { addToFavorites, removeFromFavorites } from '../redux/MovieSlice';
 import { fetchMovieById } from '../api/MovieAPI';
 import type { Movie } from '../types/movie';
 import toast from 'react-hot-toast';
