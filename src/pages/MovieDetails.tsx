@@ -4,6 +4,7 @@ import { fetchMovieById } from '../api/MovieAPI';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import type { MovieDetails as MovieDetailsType } from '../types/movie';
+import useTranslatedText from '../hooks/useTranslatedText';
 
 const MovieDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,6 +30,9 @@ const MovieDetails = () => {
     if (id) loadMovie();
   }, [id]);
 
+  const { translated: translatedTitle } = useTranslatedText(movie?.Title ?? '');
+  const { translated: translatedPlot, translating: plotTranslating } = useTranslatedText(movie?.Plot ?? '');
+
   if (loading) return <Loader />;
   if (error) return <ErrorMessage message={error} />;
   if (!movie) return <ErrorMessage message="Movie not found" />;
@@ -53,7 +57,7 @@ const MovieDetails = () => {
           </div>
           <div className="md:w-2/3 p-6">
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-              {movie.Title} ({movie.Year})
+              {translatedTitle} ({movie.Year})
             </h1>
             <div className="flex items-center gap-4 mb-4 text-sm text-gray-600 dark:text-gray-400">
               <span>⭐ {movie.imdbRating}/10</span>
@@ -66,10 +70,16 @@ const MovieDetails = () => {
               </span>
             </div>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              {movie.Plot}
+              {plotTranslating ? (
+                <span className="italic text-gray-400">Translating...</span>
+              ) : (
+                translatedPlot
+              )}
             </p>
             <div className="space-y-2 text-sm">
               <p><strong className="text-gray-800 dark:text-white">Director:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Director}</span></p>
+              <p><strong className="text-gray-800 dark:text-white">Type:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Type}</span></p>
+              <p><strong className="text-gray-800 dark:text-white">No of Seasons:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.totalSeasons}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Actors:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Actors}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Language:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Language}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Country:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Country}</span></p>

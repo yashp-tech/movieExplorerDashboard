@@ -28,6 +28,7 @@ export interface MovieDetails extends Movie {
   Ratings?: { Source: string; Value: string }[];
   Response: string;
   Error?: string;
+  totalSeasons?: string;
 }
 
 export interface MovieSearchResult {

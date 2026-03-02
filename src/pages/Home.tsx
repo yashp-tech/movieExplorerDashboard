@@ -8,6 +8,7 @@ import Pagination from '../components/Pagination';
 import MovieCarousel from '../components/MovieCarousel';
 import MovieCard from '../movies/MovieCard';
 import '../components/MovieCarousel.css';
+import useLanguage from '../hooks/useLanguage';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,6 +17,7 @@ const Home = () => {
   const [selectedGenre, setSelectedGenre] = useState('');
   const [actorQuery, setActorQuery] = useState('');
   const [selectedActor, setSelectedActor] = useState('');
+  const { selectedLanguage } = useLanguage();
 
   const { movies } = useAppSelector((state) => state.movies);
 
@@ -62,6 +64,7 @@ const Home = () => {
           genre={selectedGenre}
           page={currentPage}
           actorQuery={actorQuery}
+          language={selectedLanguage.code}
         />
 
         <Pagination

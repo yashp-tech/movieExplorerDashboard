@@ -12,9 +12,10 @@ interface MovieGridProps {
   genre: string;
   page: number;
   actorQuery: string;
+  language?: string;
 }
 
-const MovieGrid = ({ searchQuery, type, genre, page, actorQuery }: MovieGridProps) => {
+const MovieGrid = ({ searchQuery, type, genre, page, actorQuery, language }: MovieGridProps) => {
   const dispatch = useAppDispatch();
   const { movies, loading, error } = useAppSelector((state) => state.movies);
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -23,20 +24,23 @@ const MovieGrid = ({ searchQuery, type, genre, page, actorQuery }: MovieGridProp
   const isUpcoming = type === 'upcoming';
 
   const combinedQuery = useMemo(() => {
+    // Only append language if not empty and not 'All Languages'
+    const shouldAppendLang = language && language !== '' && language.toLowerCase() !== 'all languages';
+    const langSuffix = shouldAppendLang && debouncedSearch ? ` ${language}` : '';
     if (debouncedActor) {
       return debouncedActor;
     }
     if (isUpcoming) {
-      return debouncedSearch || '2025 2026';
+      return `${debouncedSearch || '2025 2026'}`;
     }
     if (genre && genre !== '') {
       if (debouncedSearch && debouncedSearch !== '') {
-        return `${debouncedSearch} ${genre}`;
+        return `${debouncedSearch} ${genre}${langSuffix}`;
       }
-      return genre;
+      return `${genre}`;
     }
-    return debouncedSearch;
-  }, [debouncedSearch, debouncedActor, genre, isUpcoming]);
+    return `${debouncedSearch}${langSuffix}`;
+  }, [debouncedSearch, debouncedActor, genre, isUpcoming, language]);
 
   const apiType = isUpcoming ? 'movie' : type;
 

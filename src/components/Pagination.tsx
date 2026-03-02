@@ -31,7 +31,7 @@ const Pagination = memo(({ currentPage, totalPages = 100, onPageChange }: Pagina
         disabled={currentPage === 1}
         className="px-4 py-2 text-black rounded dark:text-white hover:text-yellow-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
-        Back to Top
+        Back to First
       </button>
 
       <button
