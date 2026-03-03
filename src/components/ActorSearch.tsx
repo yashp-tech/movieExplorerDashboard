@@ -1,9 +1,6 @@
 import { memo, useMemo } from 'react';
-
-interface Actor {
-  name: string;
-  image: string;
-}
+import ActorCarousel from './ActorCarousel';
+import type { Actor } from './ActorCarousel';
 
 interface ActorSearchProps {
   actorQuery: string;
@@ -13,6 +10,33 @@ interface ActorSearchProps {
 }
 
 const FEATURED_ACTORS: Actor[] = [
+  {
+    name: 'Tom Cruise',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Tom_Cruise_by_Gage_Skidmore_2.jpg/440px-Tom_Cruise_by_Gage_Skidmore_2.jpg',
+  },
+  {
+    name: 'Ana de Armas',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Ana_de_Armas_Cannes_2016.jpg/440px-Ana_de_Armas_Cannes_2016.jpg',
+  },
+  {
+    name: 'Chris Evans',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Chris_Evans_by_Gage_Skidmore_2.jpg/440px-Chris_Evans_by_Gage_Skidmore_2.jpg',
+  },
+  {
+    name: 'Scarlett Johansson',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Scarlett_Johansson_in_Kuwait_01b-tweaked.jpg/440px-Scarlett_Johansson_in_Kuwait_01b-tweaked.jpg',
+  },
+
+  {
+    name: 'Sydney Sweeney',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sydney_Sweeney_by_Gage_Skidmore_2.jpg/440px-Sydney_Sweeney_by_Gage_Skidmore_2.jpg',
+  },
+
+  {
+    name: 'Chris Hemsworth',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Chris_Hemsworth_by_Gage_Skidmore_2.jpg/440px-Chris_Hemsworth_by_Gage_Skidmore_2.jpg',
+  },
+
   {
     name: 'Leonardo DiCaprio',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Leonardo_DiCaprio_2014.jpg/440px-Leonardo_DiCaprio_2014.jpg',
@@ -25,7 +49,6 @@ const FEATURED_ACTORS: Actor[] = [
     name: 'Ben Affleck',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ben_Affleck_by_Gage_Skidmore_3.jpg/440px-Ben_Affleck_by_Gage_Skidmore_3.jpg',
   },
-  
   {
     name: 'Dwayne Johnson',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Dwayne_Johnson_2014_%28cropped%29.jpg/440px-Dwayne_Johnson_2014_%28cropped%29.jpg',
@@ -71,7 +94,6 @@ const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onAct
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-xl">🎭</span>
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">Search by Actor</h2>
         </div>
         {(actorQuery || selectedActor) && (
@@ -96,38 +118,13 @@ const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onAct
         />
       </div>
 
-      {/* Filtered actor cards */}
+      {/* Actor carousel */}
       {filteredActors.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {filteredActors.map((actor) => {
-            const isSelected = selectedActor === actor.name;
-            return (
-              <button
-                key={actor.name}
-                onClick={() => handleActorClick(actor.name)}
-                className={`flex flex-col items-center gap-2 p-3 rounded-2xl border-2 transition-all duration-200 cursor-pointer group
-                  ${isSelected
-                    ? 'border-yellow-400 bg-yellow-400/10 shadow-lg scale-105'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-yellow-400 hover:scale-105 hover:shadow-md'
-                  }`}
-              >
-                <img
-                  src={actor.image}
-                  alt={actor.name}
-                  className={`w-20 h-20 rounded-full object-cover object-top border-4 transition-all duration-200
-                    ${isSelected ? 'border-yellow-400' : 'border-gray-200 dark:border-gray-700 group-hover:border-yellow-400'}`}
-                />
-                <span className={`text-sm font-semibold text-center leading-tight transition-colors duration-200
-                  ${isSelected ? 'text-yellow-500' : 'text-gray-700 dark:text-gray-200 group-hover:text-yellow-500'}`}>
-                  {actor.name}
-                </span>
-                {isSelected && (
-                  <span className="text-xs text-yellow-500 font-medium">✓ Selected</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
+        <ActorCarousel
+          actors={filteredActors}
+          selectedActor={selectedActor}
+          onActorClick={handleActorClick}
+        />
       ) : (
         // No matching actor card — still search movies by typed name
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-yellow-50 dark:bg-yellow-400/10 border border-yellow-300 dark:border-yellow-400/30">

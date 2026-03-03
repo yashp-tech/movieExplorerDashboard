@@ -32,7 +32,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="w-full md:w-auto flex justify-center md:justify-center order-3 md:order-none mt-2 md:mt-0">
-          <span className="italic text-sm md:text-base text-yellow-200 text-center block whitespace-nowrap truncate max-w-full">Discover, explore, and save your favorite movies and series!</span>
+          <span className="italic text-sm md:text-base text-yellow-400 text-center block whitespace-nowrap truncate max-w-full">Discover, explore, and save your favorite movies and series!</span>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2 md:gap-6 min-w-0">
           <NavLink
