@@ -79,7 +79,9 @@ const MovieDetails = () => {
             <div className="space-y-2 text-sm">
               <p><strong className="text-gray-800 dark:text-white">Director:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Director}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Type:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Type}</span></p>
-              <p><strong className="text-gray-800 dark:text-white">No of Seasons:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.totalSeasons}</span></p>
+              {movie.Type === 'series' && (
+                <p><strong className="text-gray-800 dark:text-white">No of Seasons:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.totalSeasons}</span></p>
+              )}
               <p><strong className="text-gray-800 dark:text-white">Actors:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Actors}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Language:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Language}</span></p>
               <p><strong className="text-gray-800 dark:text-white">Country:</strong> <span className="text-gray-600 dark:text-gray-400">{movie.Country}</span></p>

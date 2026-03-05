@@ -22,9 +22,12 @@ const Favorites = () => {
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
         My Favorites ({favorites.length})
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {favorites.map((movie) => (
-          <MovieCard key={movie.imdbID} movie={movie} />
+      <div className="flex gap-6 flex-wrap">
+        {/* map your favorites here */}
+        {favorites.map(movie => (
+          <div className="transition-transform duration-300 ease-in-out hover:scale-105 w-56 min-w-[14rem] max-w-xs">
+            <MovieCard movie={movie} />
+          </div>
         ))}
       </div>
     </div>

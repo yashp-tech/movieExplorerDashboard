@@ -21,7 +21,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-gradient-to-r shadow-lg rounded-b-2xl mb-8 bg-black">
+    <nav className={`bg-gradient-to-r shadow-lg rounded-b-2xl mb-8 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
       <div className="container mx-auto px-2 py-3 flex flex-wrap items-center justify-between gap-y-2 gap-x-4 md:grid md:grid-cols-3 md:gap-0">
         <div className="flex items-center min-w-0 flex-shrink-0">
           <Link to="/" className="flex items-center gap-2 text-xl md:text-2xl font-extrabold text-white tracking-wide min-w-0">
@@ -42,7 +42,7 @@ const Navbar = () => {
             }
             end
           >
-            ⚛️ Home
+            Home
           </NavLink>
           <NavLink
             to="/favorites"

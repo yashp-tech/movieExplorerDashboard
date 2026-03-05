@@ -4,7 +4,6 @@ import type { Actor } from './ActorCarousel';
 
 interface ActorSearchProps {
   actorQuery: string;
-  onActorQueryChange: (query: string) => void;
   selectedActor: string;
   onActorSelect: (actor: string) => void;
 }
@@ -55,7 +54,7 @@ const FEATURED_ACTORS: Actor[] = [
   },
 ];
 
-const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onActorSelect }: ActorSearchProps) => {
+const ActorSearch = memo(({ actorQuery, selectedActor, onActorSelect }: ActorSearchProps) => {
 
   // When a card is selected → show only that card
   // When typing (no selection) → show only name-matching cards
@@ -72,20 +71,12 @@ const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onAct
   const handleActorClick = (name: string) => {
     if (selectedActor === name) {
       onActorSelect('');
-      onActorQueryChange('');
     } else {
       onActorSelect(name);
-      onActorQueryChange(name);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onActorQueryChange(e.target.value);
-    onActorSelect(''); // clear card selection when typing manually
-  };
-
   const handleClear = () => {
-    onActorQueryChange('');
     onActorSelect('');
   };
 
@@ -96,7 +87,7 @@ const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onAct
         <div className="flex items-center gap-3">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">Search by Actor</h2>
         </div>
-        {(actorQuery || selectedActor) && (
+        {selectedActor && (
           <button
             onClick={handleClear}
             className="text-xs text-gray-400 hover:text-red-400 transition-colors font-medium px-2 py-1 rounded border border-gray-200 dark:border-gray-700"
@@ -106,34 +97,12 @@ const ActorSearch = memo(({ actorQuery, onActorQueryChange, selectedActor, onAct
         )}
       </div>
 
-      {/* Actor search input */}
-      <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
-        <input
-          type="text"
-          placeholder="Type actor name to filter cards & movies..."
-          value={actorQuery}
-          onChange={handleInputChange}
-          className="w-full pl-9 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-      </div>
-
       {/* Actor carousel */}
-      {filteredActors.length > 0 ? (
-        <ActorCarousel
-          actors={filteredActors}
-          selectedActor={selectedActor}
-          onActorClick={handleActorClick}
-        />
-      ) : (
-        // No matching actor card — still search movies by typed name
-        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-yellow-50 dark:bg-yellow-400/10 border border-yellow-300 dark:border-yellow-400/30">
-          <span className="text-yellow-500 text-lg">🎬</span>
-          <p className="text-sm text-yellow-700 dark:text-yellow-300">
-            Searching movies for <span className="font-bold">"{actorQuery}"</span>…
-          </p>
-        </div>
-      )}
+      <ActorCarousel
+        actors={filteredActors}
+        selectedActor={selectedActor}
+        onActorClick={handleActorClick}
+      />
     </div>
   );
 });

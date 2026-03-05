@@ -15,7 +15,6 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedType, setSelectedType] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [actorQuery, setActorQuery] = useState('');
   const [selectedActor, setSelectedActor] = useState('');
   const { selectedLanguage } = useLanguage();
 
@@ -41,14 +40,16 @@ const Home = () => {
 
         <SearchBar
           value={searchQuery}
-          onChange={(val) => { setSearchQuery(val); setActorQuery(''); setSelectedActor(''); }}
+          onChange={(val) => { setSearchQuery(val); setSelectedActor(''); }}
         />
 
         <ActorSearch
-          actorQuery={actorQuery}
-          onActorQueryChange={setActorQuery}
+          actorQuery={searchQuery}
           selectedActor={selectedActor}
-          onActorSelect={(actor) => { setSelectedActor(actor); setSearchQuery(''); }}
+          onActorSelect={(actor) => {
+            setSelectedActor(actor);
+            if (actor) setSearchQuery(actor);
+          }}
         />
 
         {movies && movies.length > 0 && (
@@ -59,11 +60,11 @@ const Home = () => {
         )}
 
         <MovieGrid
-          searchQuery={actorQuery || searchQuery}
+          searchQuery={searchQuery}
           type={selectedType}
           genre={selectedGenre}
           page={currentPage}
-          actorQuery={actorQuery}
+          actorQuery={selectedActor}
           language={selectedLanguage.code}
         />
 

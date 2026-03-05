@@ -3,10 +3,14 @@ const Footer = () => (
     <div className="container mx-auto flex flex-col gap-6 md:gap-4 md:flex-row md:items-center md:justify-between">
       <div className="flex flex-row items-center justify-between w-full">
         <div className="flex items-center">
-          <span className="font-semibold text-lg">Movie Explorer Dashboard © 2026</span>
+          <span className="font-semibold text-lg">mzviess © 2026</span>
         </div>
-        <nav className="flex-1 flex justify-center">
-          <a href="/privacy" className="hover:text-yellow-300 transition text-base font-medium">Privacy Policy</a>
+        <nav className="flex-1 flex justify-center gap-3">
+          <a href="/privacy" className="hover:text-yellow-300 transition text-base font-medium">Privacy</a>
+          <a href="/terms" className="hover:text-yellow-300 transition text-base font-medium">Terms</a>
+          <a href="/contact" className="hover:text-yellow-300 transition text-base font-medium">Contact</a>
+
+
         </nav>
         <div className="flex gap-6 text-2xl">
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-pink-300 transition">
@@ -21,7 +25,7 @@ const Footer = () => (
         </div>
       </div>
       <div className="flex flex-col items-center justify-center mt-4 text-xs text-gray-300">
-        <span>Powered by React, Vite, and Tailwind CSS</span>
+        <span>Powered by Toadster</span>
       </div>
     </div>
   </footer>
