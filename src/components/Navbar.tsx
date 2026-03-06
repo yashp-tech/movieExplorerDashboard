@@ -21,11 +21,11 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`bg-gradient-to-r shadow-lg rounded-b-2xl mb-8 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+    <nav className={`bg-gradient-to-r shadow-lg rounded-b-2xl mb-8 ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="container mx-auto px-2 py-3 flex flex-wrap items-center justify-between gap-y-2 gap-x-4 md:grid md:grid-cols-3 md:gap-0">
         <div className="flex items-center min-w-0 flex-shrink-0">
-          <Link to="/" className="flex items-center gap-2 text-xl md:text-2xl font-extrabold text-white tracking-wide min-w-0">
-            <span className="bg-gradient-to-r text-white rounded-full px-3 md:px-5 py-2 font-black text-lg md:text-xl shadow-lg border-4 border-white/30 drop-shadow-lg tracking-widest uppercase transition-transform duration-300 hover:scale-105 hover:rotate-[-3deg] focus:outline-none focus:ring-2 border-yellow-400 focus:ring-yellow-400/60 focus:ring-offset-2">
+          <Link to="/" className="flex items-center gap-2 text-xl md:text-2xl font-extrabold tracking-wide min-w-0">
+            <span className={`bg-gradient-to-r rounded-full px-3 md:px-5 py-2 font-black text-lg md:text-xl shadow-lg border-4 drop-shadow-lg tracking-widest uppercase transition-transform duration-300 hover:scale-105 hover:rotate-[-3deg] focus:outline-none focus:ring-2 border-yellow-400 focus:ring-yellow-400/60 focus:ring-offset-2 ${theme === 'dark' ? 'text-white border-white/30' : 'text-black border-black/20'}`}>
               mzviess
             </span>
             <span className="hidden sm:inline-block"></span>
@@ -38,7 +38,7 @@ const Navbar = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `text-base md:text-lg font-medium px-2 md:px-3 py-1.5 md:py-2 rounded transition-colors duration-200 ${isActive ? ' text-white shadow' : 'text-white hover:text-yellow-400 hover:scale-105 hover:bg-yellow/10'}`
+              `text-base md:text-lg font-medium px-2 md:px-3 py-1.5 md:py-2 rounded transition-colors duration-200 ${isActive ? (theme === 'dark' ? 'text-white shadow' : 'text-black shadow') : (theme === 'dark' ? 'text-white hover:text-yellow-400 hover:scale-105' : 'text-black hover:text-yellow-500 hover:scale-105')}`
             }
             end
           >
@@ -47,7 +47,7 @@ const Navbar = () => {
           <NavLink
             to="/favorites"
             className={({ isActive }) =>
-              `text-base md:text-lg font-medium px-2 md:px-3 py-1.5 md:py-2 rounded transition-colors duration-200 ${isActive ? ' text-white shadow' : 'text-white hover:text-yellow-400 hover:bg-yellow/10'}`
+              `text-base md:text-lg font-medium px-2 md:px-3 py-1.5 md:py-2 rounded transition-colors duration-200 ${isActive ? (theme === 'dark' ? 'text-white shadow' : 'text-black shadow') : (theme === 'dark' ? 'text-white hover:text-yellow-400' : 'text-black hover:text-yellow-500')}`
             }
           >
             Favorites
@@ -57,7 +57,7 @@ const Navbar = () => {
           <div className="relative min-w-[120px]" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen((prev) => !prev)}
-              className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg bg-white/10 text-white hover:bg-yellow-400/20 hover:text-yellow-400 transition-colors duration-200 font-medium text-xs md:text-sm border border-white/20 w-full md:w-auto"
+              className={`flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg hover:bg-yellow-400/20 hover:text-yellow-400 transition-colors duration-200 font-medium text-xs md:text-sm border w-full md:w-auto ${theme === 'dark' ? 'bg-white/10 text-white border-white/20' : 'bg-black/5 text-black border-black/20'}`}
               aria-label="Select language"
             >
               <span>{selectedLanguage.flag}</span>
@@ -94,7 +94,7 @@ const Navbar = () => {
           </div>
 
           <button
-            className="ml-1 md:ml-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors shadow"
+            className={`ml-1 md:ml-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full transition-colors shadow ${theme === 'dark' ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-black/10 text-black hover:bg-black/20'}`}
             aria-label="Toggle dark mode"
             onClick={toggleTheme}
           >
